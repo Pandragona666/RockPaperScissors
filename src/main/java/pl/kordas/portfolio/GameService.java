@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class GameService {
 
+    Scanner scanner = new Scanner(System.in);
     private String playerName;
     private int playerScore = 0;
     private int opponentScore = 0;
@@ -12,48 +13,69 @@ public class GameService {
     private int playerWeapon;
     private int opponentWeapon;
 
-    Scanner scanner = new Scanner(System.in);
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
+    }
 
     public void startGame() {
 
-//        System.out.println("Tell me your name:");
-//        playerName = scanner.nextLine();
+        System.out.println("Tell me your name:");
+        playerName = scanner.nextLine();
 
-        pickingWeapon();
 
-        System.out.println( playerWeapon + " against " + opponentWeapon);
-        checkingBattleResults();
-        System.out.println(playerScore + " : " + opponentScore);
+        do {
+            playerPickingWeapon();
+            opponentPickingWeapon();
+
+            System.out.println(playerWeapon + " against " + opponentWeapon);
+            checkingBattleResults(playerWeapon, opponentWeapon);
+            System.out.println(playerScore + " : " + opponentScore);
+        }
+        while (playerScore < gameEnder && opponentScore < gameEnder);
+
+        endGame();
 
     }
 
-    public void pickingWeapon() {
+    public int playerPickingWeapon() {
         System.out.println("Choose your weapon");
         System.out.println("1 - Rock ; 2 - Paper ; 3 - Scissors");
-        playerWeapon = scanner.nextInt();
 
-        int[] arsenal = {1,2,3};
-        Random r = new Random();
-        int pick = r.ints(1, 4).limit(1).findFirst().getAsInt();
-        opponentWeapon = arsenal[pick];
-
-
+        return playerWeapon = scanner.nextInt();
     }
 
-    public void checkingBattleResults() {
-        if (opponentWeapon == playerWeapon) {
-            System.out.println("Remis");
-        }
-        if ((opponentWeapon == 1 && playerWeapon == 3) ||
-                (opponentWeapon == 2 && playerWeapon == 1) ||
-                (opponentWeapon == 3 && playerWeapon == 2)) {
-            opponentScore += 1;
-        }else {
-            playerScore += 1;
+    public int opponentPickingWeapon() {
+        int[] arsenal = {1, 2, 3};
+        Random r = new Random();
+        int pick = r.ints(0, 3).limit(1).findFirst().getAsInt();
+
+        return opponentWeapon = arsenal[pick];
+    }
+
+
+    public int checkingBattleResults(int player, int opponent) {
+        if (opponent == player) {
+            return 0;
+        } else if ((opponent == 1 && player == 3) ||
+                (opponent == 2 && player == 1) ||
+                (opponent == 3 && player == 2)) {
+            return opponentScore += 1;
+        } else {
+            return playerScore += 1;
         }
     }
 
     public void endGame() {
+
+        if (playerScore == gameEnder){
+            System.out.println(playerName + " WON!");
+        } else {
+            System.out.println("You lost!");
+        }
 
     }
 
