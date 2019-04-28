@@ -57,15 +57,15 @@ public class GameService {
     }
 
 
-    public int checkingBattleResults(int player, int opponent) {
+    public void checkingBattleResults(int player, int opponent) {
         if (opponent == player) {
-            return 0;
+
         } else if ((opponent == 1 && player == 3) ||
                 (opponent == 2 && player == 1) ||
                 (opponent == 3 && player == 2)) {
-            return opponentScore += 1;
+            opponentScore += 1;
         } else {
-            return playerScore += 1;
+            playerScore += 1;
         }
     }
 
